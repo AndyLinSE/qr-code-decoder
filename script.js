@@ -11,6 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyButtonIcon = copyButton.querySelector('i');
     const copyButtonText = copyButton.querySelector('span');
     const openLinkButton = document.getElementById('open-link-button');
+    const historySection = document.querySelector('.history-section');
+    const historyToggleButton = document.getElementById('history-toggle');
+
+    // Set the viewport height CSS variable
+    const setVhProperty = () => {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    // Set it initially
+    setVhProperty();
+
+    // Recompute on resize
+    window.addEventListener('resize', setVhProperty);
+
+    // Prevent initial animation of history section
+    historySection.style.transition = 'none';
+    historySection.classList.add('collapsed');
+    historySection.offsetHeight; // Force reflow
+    historySection.style.transition = '';
 
     let history = loadHistory();
     renderHistory();
@@ -88,11 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Toggle functionality for History Sidebar
-    const historyToggleButton = document.getElementById('history-toggle');
-    const historySidebar = document.querySelector('.history-sidebar');
-
     historyToggleButton.addEventListener('click', () => {
-        historySidebar.classList.toggle('open');
+        historySection.classList.toggle('collapsed');
     });
 
     function handlePaste(event) {
@@ -337,22 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveHistory() {
         localStorage.setItem('qrCodeHistory', JSON.stringify(history));
     }
-
-    // Add this to your existing JavaScript
-    const historyToggle = document.getElementById('history-toggle');
-    const historySection = document.querySelector('.history-section');
-    
-    // Load the saved state from localStorage
-    const isCollapsed = localStorage.getItem('historyCollapsed') === 'true';
-    if (isCollapsed) {
-        historySection.classList.add('collapsed');
-    }
-    
-    historyToggle.addEventListener('click', () => {
-        historySection.classList.toggle('collapsed');
-        // Save the state to localStorage
-        localStorage.setItem('historyCollapsed', historySection.classList.contains('collapsed'));
-    });
 
     function openDecodedUrl() {
         const decodedText = outputBox.textContent;

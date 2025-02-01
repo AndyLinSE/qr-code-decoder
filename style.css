@@ -3,6 +3,13 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 :root {
     /* Modern color palette with updated colors */
     --primary-color: #6366f1;
@@ -24,8 +31,6 @@
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-primary);
-    margin: 0;
-    padding: 0;
     min-height: 100vh;
     color: var(--text-primary);
     overflow-x: hidden;
@@ -164,6 +169,7 @@ h1 {
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
+    padding-top: 1.5rem;
 }
 
 .history-header h2 {
@@ -313,8 +319,7 @@ h1 {
     font-size: 1.2rem;
 }
 
-.output-section, 
-.history-section {
+.output-section {
     margin-top: 25px;
 }
 
@@ -601,14 +606,13 @@ h2 {
     top: 0;
     right: 0;
     width: 320px;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     background-color: var(--bg-secondary);
     border-left: 1px solid var(--border-color);
     box-shadow: var(--shadow-lg);
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
     z-index: 1000;
     overflow: hidden;
 }
@@ -619,7 +623,7 @@ h2 {
 
 .history-content {
     background: var(--bg-secondary);
-    padding: 2rem 1.5rem;
+    padding: 0 1rem 1rem;
     height: 100%;
     width: 100%;
     display: flex;
