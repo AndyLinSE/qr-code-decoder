@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Decoder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Decoder</h1>
+
+        <details class="example-qrcodes">
+            <summary>Example QR codes to test with</summary>
+            <div class="qrcode-images" role="list">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.example.com" 
+                     alt="Example QR Code containing URL: www.example.com" 
+                     title="Click to use this QR code"
+                     role="listitem">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=This%20is%20a%20test%20QR%20code." 
+                     alt="Example QR Code containing text: This is a test QR code" 
+                     title="Click to use this QR code"
+                     role="listitem">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=1234567890" 
+                     alt="Example QR Code containing numbers: 1234567890" 
+                     title="Click to use this QR code"
+                     role="listitem">
+            </div>
+        </details>
+
+        <p class="instruction">
+            <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> to take a screenshot, then <kbd>Ctrl</kbd>+<kbd>V</kbd> to paste it in the box below
+        </p>
+
+        <hr class="separator" aria-hidden="true">
+
+        <div class="content-area">
+            <div class="main-content">
+                <div id="input-area" class="input-area" tabindex="0" role="button" aria-label="Click, drag, or paste QR code image here">
+                    <p class="placeholder-text">Click, drag and drop, or paste an image to decode the QR code</p>
+                    <span id="paste-prompt" class="paste-prompt">Ready for Clipboard: Press Ctrl+V</span>
+                </div>
+
+                <div id="output-section" class="output-section">
+                    <h2>Decoded QR Code</h2>
+                    <div id="output-box" class="output-box" role="region" aria-live="polite"></div>
+                    <button id="copy-button" class="button" disabled aria-label="Copy decoded text">
+                        <i class="fas fa-copy" aria-hidden="true"></i>
+                        <span>Copy</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="history-sidebar">
+                <div id="history-section" class="history-section">
+                    <div class="history-header">
+                        <h2>History</h2>
+                        <button id="clear-history-button" class="button" aria-label="Clear all history">
+                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            <span>Clear History</span>
+                        </button>
+                    </div>
+                    <div id="history-container" class="history-container" role="list">
+                        <!-- History items will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="history-toggle" class="history-toggle" aria-label="Toggle history sidebar">
+        <i class="fas fa-history"></i>
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <span>Text copied to clipboard!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
