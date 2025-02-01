@@ -1,61 +1,186 @@
 /* style.css */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 :root {
-    /* Modern color palette */
-    --primary-color: #4361ee;
-    --primary-hover: #3046c1;
-    --secondary-color: #f72585;
-    --secondary-hover: #d61a6f;
-    --text-primary: #2b2d42;
-    --text-secondary: #6c757d;
-    --bg-primary: #f8f9fa;
+    /* Modern color palette with updated colors */
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #ec4899;
+    --secondary-hover: #db2777;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
-    --border-color: #e9ecef;
-    --success-color: #2ecc71;
-    --toast-bg: rgba(43, 45, 66, 0.95);
+    --border-color: #e2e8f0;
+    --success-color: #22c55e;
+    --toast-bg: rgba(15, 23, 42, 0.95);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-primary);
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 0;
     min-height: 100vh;
     color: var(--text-primary);
+    overflow-x: hidden;
 }
 
 .container {
-    background-color: var(--bg-secondary);
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    max-width: min(1600px, calc(100% - 340px));
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.5rem;
+}
+
+.main-content {
     max-width: 1200px;
     width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    margin: 0 auto;
+}
+
+.history-container {
+    margin-top: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.5rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 0.75rem;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
     color: var(--text-primary);
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     letter-spacing: -0.5px;
 }
 
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+}
+
+.keyboard-shortcuts {
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.keyboard-shortcuts h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.shortcut {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--bg-primary);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.shortcut kbd {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+}
+
+.shortcut span {
+    color: var(--text-secondary);
+    flex: 1;
+    min-width: 80px;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.upload-content i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    opacity: 0.5;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.button.secondary {
+    background-color: var(--secondary-color);
+}
+
+.button.secondary:hover {
+    background-color: var(--secondary-hover);
+}
+
+.button.danger {
+    background-color: #ef4444;
+}
+
+.button.danger:hover {
+    background-color: #dc2626;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.history-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1rem;
+}
+
 .example-qrcodes {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 1rem;
     background-color: var(--bg-primary);
     border-radius: 12px;
-    padding: 15px;
+    padding: 8px;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
 }
 
 .example-qrcodes summary {
@@ -89,25 +214,15 @@ h1 {
 .qrcode-images {
     display: flex;
     justify-content: center;
-    gap: 25px;
-    margin-top: 15px;
+    gap: 15px;
+    margin-top: 8px;
     flex-wrap: wrap;
 }
 
 .qrcode-images img {
-    width: 120px;
-    height: 120px;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: var(--bg-secondary);
-    padding: 8px;
-}
-
-.qrcode-images img:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 90px;
+    height: 90px;
+    padding: 4px;
 }
 
 .instruction {
@@ -129,13 +244,6 @@ h1 {
     display: flex;
     gap: 30px;
     align-items: flex-start;
-}
-
-.main-content {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
 }
 
 .history-sidebar {
@@ -161,17 +269,19 @@ h1 {
 .input-area {
     border: 2px dashed var(--border-color);
     border-radius: 16px;
-    padding: 40px;
+    padding: 25px;
     text-align: center;
     cursor: pointer;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     position: relative;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 150px;
+    min-height: 120px;
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-sm);
 }
 
 .input-area:focus, 
@@ -182,7 +292,7 @@ h1 {
 
 .placeholder-text {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -210,36 +320,28 @@ h1 {
 
 h2 {
     color: var(--text-primary);
-    margin-bottom: 15px;
-    font-size: 1.5rem;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
     font-weight: 600;
 }
 
 .output-box {
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 20px;
+    padding: 15px;
     background-color: var(--bg-secondary);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     word-wrap: break-word;
     overflow-x: auto;
-    min-height: 80px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.6;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.history-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow-y: auto;
-    max-height: 500px;
-    padding-right: 8px;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(8px);
 }
 
 .history-container::-webkit-scrollbar {
@@ -261,15 +363,14 @@ h2 {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-bottom: 12px;
     transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
 }
 
 .history-item:hover {
-    transform: translateX(5px);
-    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .history-item-text {
@@ -284,22 +385,22 @@ h2 {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 24px;
     border-radius: 8px;
+    padding: 8px 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
 }
 
 .button:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 .button:disabled {
@@ -334,7 +435,10 @@ h2 {
 #clear-history-button {
     background-color: var(--secondary-color);
     box-shadow: 0 2px 4px rgba(247, 37, 133, 0.2);
-    margin-bottom: 20px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    min-width: fit-content;
 }
 
 #clear-history-button:hover {
@@ -344,23 +448,20 @@ h2 {
 
 .toast {
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
     background-color: var(--toast-bg);
     color: white;
     padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(8px);
 }
 
 .toast.show {
@@ -375,13 +476,14 @@ h2 {
     left: 0;
     width: 100%;
     height: 100%;
+    backdrop-filter: blur(4px);
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
     z-index: 1000;
 }
 
@@ -471,40 +573,98 @@ h2 {
 
 .history-toggle {
     position: fixed;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background-color: var(--primary-color);
-    color: #fff;
-    border: 2px solid var(--primary-hover);
-    padding: 15px 20px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px 0 0 4px;
+    top: 1.5rem;
+    right: 1.5rem;
+    transform: none;
     z-index: 1001;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
-.history-toggle:hover,
-.history-toggle:focus {
-    background-color: var(--primary-hover);
+.history-toggle:hover {
+    transform: scale(1.1);
+}
+
+.history-section {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.history-section.collapsed {
+    transform: translateX(100%);
+}
+
+.history-content {
+    background: var(--bg-secondary);
+    padding: 2rem 1.5rem;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        max-width: calc(100% - 340px);
+    }
+    
+    .main-content {
+        max-width: 900px;
+    }
 }
 
 @media (max-width: 768px) {
-    .content-area {
-        flex-direction: column;
+    .container {
+        max-width: 100%;
+        padding: 1rem;
     }
     
-    .history-sidebar {
+    .main-content {
         max-width: 100%;
     }
     
-    .container {
-        padding: 20px;
+    .history-section {
+        width: 100%;
+        height: 100vh;
+        z-index: 1000;
     }
     
+    .history-section.collapsed {
+        transform: translateX(100%);
+    }
+    
+    .history-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .history-toggle {
+        display: flex;
+    }
+
     h1 {
         font-size: 2rem;
     }
@@ -520,5 +680,33 @@ h2 {
     
     .modal button {
         width: 100%;
+    }
+    
+    .shortcuts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .shortcuts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .shortcut {
+        padding: 0.75rem;
+    }
+    
+    .shortcut span {
+        width: 100%;
+        margin-top: 0.25rem;
     }
 }

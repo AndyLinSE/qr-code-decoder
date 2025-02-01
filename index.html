@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="description" content="A modern QR code decoder that allows you to scan and decode QR codes directly in your browser">
     <title>QR Code Decoder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,61 +14,104 @@
 </head>
 <body>
     <div class="container">
-        <h1>QR Code Decoder</h1>
+        <div class="main-content">
+            <header>
+                <h1>
+                    <i class="fas fa-qrcode" aria-hidden="true"></i>
+                    QR Code Decoder
+                </h1>
+                <p class="subtitle">Instantly decode QR codes from images</p>
+            </header>
 
-        <details class="example-qrcodes">
-            <summary>Example QR codes to test with</summary>
-            <div class="qrcode-images" role="list">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.example.com" 
-                     alt="Example QR Code containing URL: www.example.com" 
-                     title="Click to use this QR code"
-                     role="listitem">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=This%20is%20a%20test%20QR%20code." 
-                     alt="Example QR Code containing text: This is a test QR code" 
-                     title="Click to use this QR code"
-                     role="listitem">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=1234567890" 
-                     alt="Example QR Code containing numbers: 1234567890" 
-                     title="Click to use this QR code"
-                     role="listitem">
-            </div>
-        </details>
-
-        <p class="instruction">
-            <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> to take a screenshot, then <kbd>Ctrl</kbd>+<kbd>V</kbd> to paste it in the box below
-        </p>
-
-        <hr class="separator" aria-hidden="true">
-
-        <div class="content-area">
-            <div class="main-content">
-                <div id="input-area" class="input-area" tabindex="0" role="button" aria-label="Click, drag, or paste QR code image here">
-                    <p class="placeholder-text">Click, drag and drop, or paste an image to decode the QR code</p>
-                    <span id="paste-prompt" class="paste-prompt">Ready for Clipboard: Press Ctrl+V</span>
+            <details class="example-qrcodes">
+                <summary>
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    Example QR codes to test with
+                </summary>
+                <div class="qrcode-images" role="list">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.example.com" 
+                         alt="Example QR Code containing URL: www.example.com" 
+                         title="Click to use this QR code"
+                         role="listitem"
+                         loading="lazy">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=This%20is%20a%20test%20QR%20code." 
+                         alt="Example QR Code containing text: This is a test QR code" 
+                         title="Click to use this QR code"
+                         role="listitem"
+                         loading="lazy">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=1234567890" 
+                         alt="Example QR Code containing numbers: 1234567890" 
+                         title="Click to use this QR code"
+                         role="listitem"
+                         loading="lazy">
                 </div>
+            </details>
 
-                <div id="output-section" class="output-section">
-                    <h2>Decoded QR Code</h2>
-                    <div id="output-box" class="output-box" role="region" aria-live="polite"></div>
+            <div class="keyboard-shortcuts" role="complementary">
+                <h2>
+                    <i class="fas fa-keyboard" aria-hidden="true"></i>
+                    Keyboard Shortcuts
+                </h2>
+                <div class="shortcuts-grid">
+                    <div class="shortcut">
+                        <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
+                        <span>Take screenshot</span>
+                    </div>
+                    <div class="shortcut">
+                        <kbd>Ctrl</kbd>+<kbd>V</kbd>
+                        <span>Paste image</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="upload-section">
+                <div id="input-area" class="input-area" tabindex="0" role="button" 
+                     aria-label="Click, drag, or paste QR code image here">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                        <p class="placeholder-text">Click, drag and drop, or paste an image to decode the QR code</p>
+                        <span id="paste-prompt" class="paste-prompt">
+                            <i class="fas fa-paste" aria-hidden="true"></i>
+                            Ready for Clipboard: Press Ctrl+V
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="decoded-section">
+                <h2>
+                    <i class="fas fa-spell-check" aria-hidden="true"></i>
+                    Decoded QR Code
+                </h2>
+                <div id="output-box" class="output-box" role="region" aria-live="polite"></div>
+                <div class="action-buttons">
                     <button id="copy-button" class="button" disabled aria-label="Copy decoded text">
                         <i class="fas fa-copy" aria-hidden="true"></i>
                         <span>Copy</span>
                     </button>
+                    <button id="open-link-button" class="button secondary" disabled aria-label="Open decoded URL">
+                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        <span>Open URL</span>
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class="history-sidebar">
-                <div id="history-section" class="history-section">
-                    <div class="history-header">
-                        <h2>History</h2>
-                        <button id="clear-history-button" class="button" aria-label="Clear all history">
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                            <span>Clear History</span>
-                        </button>
-                    </div>
-                    <div id="history-container" class="history-container" role="list">
-                        <!-- History items will be added here -->
-                    </div>
+        <div class="history-section">
+            <div class="history-content">
+                <div class="history-header">
+                    <h2>
+                        <i class="fas fa-history" aria-hidden="true"></i>
+                        History
+                    </h2>
+                    <button id="clear-history-button" class="button danger" aria-label="Clear all history">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span>Clear History</span>
+                    </button>
+                </div>
+                <div id="history-container" class="history-container" role="list">
+                    <!-- History items will be added here -->
                 </div>
             </div>
         </div>

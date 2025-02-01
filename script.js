@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeholderTextElement = inputArea.querySelector('.placeholder-text');
     const copyButtonIcon = copyButton.querySelector('i');
     const copyButtonText = copyButton.querySelector('span');
+    const openLinkButton = document.getElementById('open-link-button');
 
     let history = loadHistory();
     renderHistory();
@@ -64,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Copy to clipboard
     copyButton.addEventListener('click', copyToClipboard);
 
+    // Open URL
+    openLinkButton.addEventListener('click', openDecodedUrl);
+
     // Clear history with custom modal
     clearHistoryButton.addEventListener('click', () => {
         showModal('Clear History', 
@@ -117,58 +121,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function decodeImage(imageFileOrBlob) {
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function(e) {
             const img = new Image();
-            
             img.onload = function() {
                 const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
                 canvas.width = img.width;
                 canvas.height = img.height;
-                const context = canvas.getContext('2d');
-                context.drawImage(img, 0, 0, img.width, img.height);
-                const imageData = context.getImageData(0, 0, img.width, img.height);
+                context.drawImage(img, 0, 0);
                 
-                try {
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
+                
+                if (code) {
+                    const decodedText = code.data;
+                    outputBox.textContent = decodedText;
+                    copyButton.disabled = false;
                     
-                    if (code) {
-                        outputBox.textContent = code.data;
-                        copyButton.disabled = false;
-                        addToHistory(code.data);
-                        renderHistory();
-                        showToast('QR code successfully decoded!', 'success');
-                    } else {
-                        outputBox.textContent = 'No QR code detected in the image.';
-                        copyButton.disabled = true;
-                        showToast('No QR code found', 'error');
-                    }
-                } catch (error) {
-                    outputBox.textContent = 'Error processing QR code.';
+                    // Enable/disable open URL button based on whether the decoded text is a valid URL
+                    const isUrl = decodedText.toLowerCase().startsWith('http://') || 
+                                decodedText.toLowerCase().startsWith('https://');
+                    openLinkButton.disabled = !isUrl;
+                    
+                    addToHistory(decodedText);
+                    showToast('QR code decoded successfully!');
+                } else {
+                    outputBox.textContent = '';
                     copyButton.disabled = true;
-                    showToast('Error processing image', 'error');
+                    openLinkButton.disabled = true;
+                    showToast('No QR code found in image', 'error');
                 }
-                
                 placeholderTextElement.textContent = 'Click here to paste image to decode QR code';
-                inputArea.classList.remove('active');
             };
-
-            img.onerror = function() {
-                outputBox.textContent = 'Error loading image.';
-                copyButton.disabled = true;
-                showToast('Failed to load image', 'error');
-                placeholderTextElement.textContent = 'Click here to paste image to decode QR code';
-                inputArea.classList.remove('active');
-            };
-
-            img.src = event.target.result;
+            img.src = e.target.result;
         };
-
-        reader.onerror = function() {
-            showToast('Error reading image file', 'error');
-            placeholderTextElement.textContent = 'Click here to paste image to decode QR code';
-            inputArea.classList.remove('active');
-        };
-
         reader.readAsDataURL(imageFileOrBlob);
     }
 
@@ -235,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             history.pop();
         }
         saveHistory();
+        renderHistory();
     }
 
     function renderHistory() {
@@ -258,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const textDiv = document.createElement('div');
             textDiv.classList.add('history-item-text');
             textDiv.textContent = item;
+            textDiv.setAttribute('title', item);
             historyItemDiv.appendChild(textDiv);
 
             const copyButton = document.createElement('button');
@@ -348,5 +336,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveHistory() {
         localStorage.setItem('qrCodeHistory', JSON.stringify(history));
+    }
+
+    // Add this to your existing JavaScript
+    const historyToggle = document.getElementById('history-toggle');
+    const historySection = document.querySelector('.history-section');
+    
+    // Load the saved state from localStorage
+    const isCollapsed = localStorage.getItem('historyCollapsed') === 'true';
+    if (isCollapsed) {
+        historySection.classList.add('collapsed');
+    }
+    
+    historyToggle.addEventListener('click', () => {
+        historySection.classList.toggle('collapsed');
+        // Save the state to localStorage
+        localStorage.setItem('historyCollapsed', historySection.classList.contains('collapsed'));
+    });
+
+    function openDecodedUrl() {
+        const decodedText = outputBox.textContent;
+        if (decodedText && (decodedText.toLowerCase().startsWith('http://') || 
+                           decodedText.toLowerCase().startsWith('https://'))) {
+            window.open(decodedText, '_blank', 'noopener,noreferrer');
+        } else {
+            showToast('Invalid URL', 'error');
+        }
     }
 });
