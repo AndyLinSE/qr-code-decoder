@@ -13,6 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const openLinkButton = document.getElementById('open-link-button');
     const historySection = document.querySelector('.history-section');
     const historyToggleButton = document.getElementById('history-toggle');
+    const fileInput = document.getElementById('file-input');
+
+    // Detect if device is mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Update UI text based on device type
+    if (isMobile) {
+        placeholderTextElement.textContent = 'Tap here to take a photo or choose from gallery';
+        pastePrompt.style.display = 'none';
+    }
 
     // Set the viewport height CSS variable
     const setVhProperty = () => {
@@ -76,7 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputArea.addEventListener('click', () => {
         inputArea.classList.add('active');
-        pastePrompt.style.display = 'block';
+        if (isMobile) {
+            fileInput.click();
+        } else {
+            pastePrompt.style.display = 'block';
+        }
     });
 
     // Paste handling
@@ -110,6 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle functionality for History Sidebar
     historyToggleButton.addEventListener('click', () => {
         historySection.classList.toggle('collapsed');
+    });
+
+    // File input handling
+    fileInput.addEventListener('change', (event) => {
+        if (event.target.files && event.target.files[0]) {
+            placeholderTextElement.textContent = 'Processing...';
+            decodeImage(event.target.files[0]);
+        }
     });
 
     function handlePaste(event) {
