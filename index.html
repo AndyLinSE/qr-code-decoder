@@ -66,7 +66,8 @@
             </div>
 
             <div class="upload-section">
-                <input type="file" id="file-input" accept="image/*" capture="environment" style="display: none;" aria-label="Choose or capture image"/>
+                <input type="file" id="file-input" accept="image/*" style="display: none;" aria-label="Choose image from gallery"/>
+                <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;" aria-label="Take photo with camera"/>
                 <div id="input-area" class="input-area" tabindex="0" role="button" 
                      aria-label="Click, drag, or paste QR code image here">
                     <div class="upload-content">
@@ -76,6 +77,16 @@
                             <i class="fas fa-paste" aria-hidden="true"></i>
                             Ready for Clipboard: Press Ctrl+V
                         </span>
+                        <div id="mobile-buttons" class="mobile-buttons" style="display: none;">
+                            <button type="button" id="gallery-button" class="button secondary">
+                                <i class="fas fa-images" aria-hidden="true"></i>
+                                Choose from Gallery
+                            </button>
+                            <button type="button" id="camera-button" class="button">
+                                <i class="fas fa-camera" aria-hidden="true"></i>
+                                Take Photo
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,14 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const historySection = document.querySelector('.history-section');
     const historyToggleButton = document.getElementById('history-toggle');
     const fileInput = document.getElementById('file-input');
+    const cameraInput = document.getElementById('camera-input');
+    const mobileButtons = document.getElementById('mobile-buttons');
+    const galleryButton = document.getElementById('gallery-button');
+    const cameraButton = document.getElementById('camera-button');
 
     // Detect if device is mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    // Update UI text based on device type
+    // Update UI for mobile devices
     if (isMobile) {
-        placeholderTextElement.textContent = 'Tap here to take a photo or choose from gallery';
+        placeholderTextElement.textContent = 'Tap below to scan a QR code';
         pastePrompt.style.display = 'none';
+        mobileButtons.style.display = 'flex';
     }
 
     // Set the viewport height CSS variable
@@ -84,11 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Update click handler for input area
     inputArea.addEventListener('click', () => {
         inputArea.classList.add('active');
-        if (isMobile) {
-            fileInput.click();
-        } else {
+        if (!isMobile) {
             pastePrompt.style.display = 'block';
         }
     });
@@ -126,8 +130,27 @@ document.addEventListener('DOMContentLoaded', () => {
         historySection.classList.toggle('collapsed');
     });
 
-    // File input handling
+    // Mobile button handlers
+    galleryButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent input area click
+        fileInput.click();
+    });
+
+    cameraButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent input area click
+        cameraInput.click();
+    });
+
+    // File input handling for gallery
     fileInput.addEventListener('change', (event) => {
+        if (event.target.files && event.target.files[0]) {
+            placeholderTextElement.textContent = 'Processing...';
+            decodeImage(event.target.files[0]);
+        }
+    });
+
+    // File input handling for camera
+    cameraInput.addEventListener('change', (event) => {
         if (event.target.files && event.target.files[0]) {
             placeholderTextElement.textContent = 'Processing...';
             decodeImage(event.target.files[0]);

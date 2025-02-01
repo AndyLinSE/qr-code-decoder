@@ -347,6 +347,16 @@ h2 {
     backdrop-filter: blur(8px);
 }
 
+.output-box:empty::before {
+    content: "Decoded QR code will appear here.";
+    color: var(--text-secondary);
+    font-size: 1rem;
+    opacity: 0.5;
+    display: block;
+    text-align: center;
+    padding: 1x;
+}
+
 .history-container::-webkit-scrollbar {
     width: 8px;
 }
@@ -689,11 +699,14 @@ h2 {
     }
     
     .action-buttons {
-        flex-direction: column;
+        gap: 0.75rem;
+        justify-content: stretch;
     }
     
-    .button {
-        width: 100%;
+    .action-buttons .button {
+        flex: 1;
+        min-width: 0;
+        padding: 0.75rem;
         justify-content: center;
     }
 
@@ -705,6 +718,7 @@ h2 {
 
     .input-area .upload-content {
         padding: 1rem;
+        width: 100%;
     }
 
     .input-area .fa-cloud-upload-alt {
@@ -716,13 +730,22 @@ h2 {
         font-size: 1rem;
         line-height: 1.4;
         max-width: 280px;
-        margin: 0 auto;
+        margin: 0 auto 0.5rem;
     }
 
     /* Improve touch feedback */
     .input-area:active {
         transform: scale(0.98);
         background-color: var(--bg-color-hover);
+    }
+
+    .mobile-buttons {
+        margin-top: 1.5rem;
+    }
+
+    .mobile-buttons .button {
+        margin: 0;
+        padding: 0.875rem;
     }
 }
 
@@ -738,5 +761,80 @@ h2 {
     .shortcut span {
         width: 100%;
         margin-top: 0.25rem;
+    }
+}
+
+/* Mobile Buttons - Modern Design */
+.mobile-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.mobile-buttons .button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    min-width: 140px;
+}
+
+.mobile-buttons .button i {
+    font-size: 1.125rem;
+    margin-right: 4px;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-buttons .button.secondary {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.mobile-buttons .button:hover,
+.mobile-buttons .button:focus {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background-color: var(--primary-hover);
+    outline: none;
+}
+
+.mobile-buttons .button.secondary:hover,
+.mobile-buttons .button.secondary:focus {
+    background-color: var(--bg-primary);
+    border-color: var(--text-secondary);
+}
+
+.mobile-buttons .button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-buttons .button.secondary i {
+    color: var(--text-primary);
+}
+
+@media (max-width: 480px) {
+    .mobile-buttons {
+        flex-direction: column;
+    }
+
+    .mobile-buttons .button {
+        width: 100%;
+        padding: 0.75rem 1rem;
     }
 }
