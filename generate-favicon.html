@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <canvas id="faviconCanvas" width="32" height="32"></canvas>
+    <script>
+        const canvas = document.getElementById('faviconCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set background with a subtle gradient
+        const gradient = ctx.createLinearGradient(0, 0, 32, 32);
+        gradient.addColorStop(0, '#6366f1');
+        gradient.addColorStop(1, '#4f46e5');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 32, 32);
+
+        // Draw QR code pattern with rounded corners
+        ctx.fillStyle = '#ffffff';
+        
+        // Helper function to draw rounded rectangle
+        function roundRect(x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Draw finder patterns (the three large squares)
+        // Top-left finder pattern
+        roundRect(2, 2, 10, 10, 1);  // Outer square
+        roundRect(4, 4, 6, 6, 1);    // Middle square
+        roundRect(6, 6, 2, 2, 1);    // Inner square
+
+        // Top-right finder pattern
+        roundRect(20, 2, 10, 10, 1);  // Outer square
+        roundRect(22, 4, 6, 6, 1);    // Middle square
+        roundRect(24, 6, 2, 2, 1);    // Inner square
+
+        // Bottom-left finder pattern
+        roundRect(2, 20, 10, 10, 1);  // Outer square
+        roundRect(4, 22, 6, 6, 1);    // Middle square
+        roundRect(6, 24, 2, 2, 1);    // Inner square
+
+        // Draw alignment pattern (smaller square in the middle-right)
+        roundRect(20, 20, 6, 6, 1);   // Outer square
+        roundRect(22, 22, 2, 2, 1);   // Inner square
+
+        // Draw timing patterns (alternating dots)
+        // Horizontal timing pattern
+        for (let i = 12; i < 20; i += 2) {
+            roundRect(i, 6, 1, 1, 1);
+        }
+        // Vertical timing pattern
+        for (let i = 12; i < 20; i += 2) {
+            roundRect(6, i, 1, 1, 1);
+        }
+
+        // Add a subtle shadow effect
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 2;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        
+        // Convert to favicon and save directly
+        const link = document.createElement('a');
+        link.download = 'favicon.ico';
+        link.href = canvas.toDataURL('image/x-icon');
+        link.click();
+    </script>
+</body>
+</html> 
