@@ -79,6 +79,63 @@ h1 {
     margin: 0.25rem 0;
 }
 
+.description {
+    text-align: center;
+    margin: 1.5rem auto 0.75rem;
+    background-color: var(--bg-primary);
+    border-radius: 12px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    max-width: 800px;
+}
+
+.description summary {
+    cursor: pointer;
+    padding: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    user-select: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.description summary:hover {
+    color: var(--primary-color);
+}
+
+.description summary::before {
+    content: '▾';
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.description[open] summary::before {
+    transform: rotate(180deg);
+}
+
+.description-content {
+    padding: 0 1rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.description-content p {
+    margin: 0.75rem 0;
+}
+
+.description-content p:first-child {
+    margin-top: 0;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
 .keyboard-shortcuts {
     background-color: var(--bg-secondary);
     border-radius: 12px;
